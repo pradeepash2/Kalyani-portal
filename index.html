@@ -1,0 +1,2127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalyani Coaching Classes - Student Portal & Management System</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js for Progress Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+  <!-- ================= TOP CONTACT & ANNOUNCEMENT BAR ================= -->
+  <div class="bg-slate-900 text-slate-200 text-xs py-2 px-4 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+      <!-- Contact Numbers -->
+      <div class="flex items-center flex-wrap gap-x-4 gap-y-1 text-slate-300">
+        <span class="inline-flex items-center gap-1 font-semibold text-amber-400">
+          <i data-lucide="phone-call" class="w-3.5 h-3.5"></i> Helplines:
+        </span>
+        <a href="tel:8600436946" class="hover:text-white font-mono transition flex items-center gap-1">
+          <span>+91 86004 36946</span>
+        </a>
+        <span class="text-slate-600 hidden md:inline">|</span>
+        <a href="tel:8484881501" class="hover:text-white font-mono transition">
+          <span>+91 84848 81501</span>
+        </a>
+        <span class="text-slate-600 hidden md:inline">|</span>
+        <a href="tel:9860646501" class="hover:text-white font-mono transition">
+          <span>+91 98606 46501</span>
+        </a>
+      </div>
+
+      <!-- Deployment Guide Button & Active Counter -->
+      <div class="flex items-center gap-3 text-[11px]">
+        <button onclick="openDeployGuideModal()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 hover:bg-brand-500/30 transition">
+          <i data-lucide="globe" class="w-3.5 h-3.5 text-brand-400"></i>
+          <span>How to Publish / Host Website Free</span>
+        </button>
+        <span id="topStudentCountBadge" class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span id="activeEnrolledLabel">0 Students Enrolled</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= AUTHENTICATION MODAL / SCREEN OVERLAY ================= -->
+  <div id="authOverlay" class="fixed inset-0 z-50 bg-slate-900/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95">
+      
+      <!-- Logo & Title -->
+      <div class="text-center">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-brand-700 via-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 mb-3">
+          <i data-lucide="graduation-cap" class="w-8 h-8"></i>
+        </div>
+        <h2 class="text-xl font-extrabold text-slate-900 font-display">Kalyani Coaching Classes</h2>
+        <p class="text-xs text-slate-500 mt-1">Student & Faculty Portal Access System</p>
+      </div>
+
+      <!-- Quick Demo Login Presets -->
+      <div class="mt-4 p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
+        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Quick Login Presets</div>
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" onclick="fillLogin('admin', 'admin123')" class="px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-brand-700 font-bold border border-indigo-200 text-[11px] text-left">
+            👑 Admin (Pradeep)<br><span class="text-[10px] text-brand-600 font-normal">admin / admin123</span>
+          </button>
+          <button type="button" onclick="fillLogin('student101', 'kalyani@2026')" class="px-2.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold border border-emerald-200 text-[11px] text-left">
+            🎓 Demo Student<br><span class="text-[10px] text-emerald-600 font-normal">student101 / kalyani@2026</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="mt-4 space-y-3.5 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Username or Roll Number</label>
+          <div class="relative">
+            <i data-lucide="user" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+            <input type="text" id="loginUsername" required placeholder="e.g. admin or roll number" class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Password</label>
+          <div class="relative">
+            <i data-lucide="key" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+            <input type="password" id="loginPassword" required placeholder="Enter your portal password" class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium">
+          </div>
+        </div>
+
+        <div id="loginErrorMsg" class="hidden text-rose-600 text-xs font-semibold p-2.5 rounded-xl bg-rose-50 border border-rose-200">
+          Invalid username or password. Please re-check credentials.
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-md transition flex items-center justify-center gap-2">
+          <i data-lucide="log-in" class="w-4 h-4"></i> Secure Login
+        </button>
+
+        <div class="text-center pt-2">
+          <p class="text-[11px] text-slate-400">Need help with login credentials? Contact Helpline:</p>
+          <a href="tel:8600436946" class="text-brand-600 font-mono font-bold hover:underline text-xs">+91 86004 36946</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MAIN HEADER & BRANDING ================= -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        
+        <!-- Logo and Class Title -->
+        <div class="flex items-center gap-3.5 cursor-pointer" onclick="switchTab('dashboard')">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-700 via-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/20 ring-2 ring-brand-100">
+            <i data-lucide="graduation-cap" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="font-display text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Kalyani Coaching Classes</h1>
+              <span class="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-brand-50 text-brand-700 border border-brand-200">Govt. Reg.</span>
+            </div>
+            <p class="text-xs text-slate-500 font-medium">Excellence in Learning & Academic Progress</p>
+          </div>
+        </div>
+
+        <!-- Authenticated User Profile & Logout -->
+        <div class="flex items-center gap-3">
+          
+          <div id="userHeaderCard" class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-2xl border bg-slate-50 border-slate-200 text-xs">
+            <div id="userAvatar" class="w-8 h-8 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold">
+              P
+            </div>
+            <div class="text-left hidden sm:block">
+              <p id="headerUserName" class="font-bold text-slate-900 leading-tight">Pradeep (Admin)</p>
+              <p id="headerUserRole" class="text-[10px] text-brand-600 font-semibold uppercase">Super Administrator</p>
+            </div>
+          </div>
+
+          <button onclick="handleLogout()" title="Log out from session" class="p-2 rounded-xl border border-slate-200 hover:bg-rose-50 hover:text-rose-600 text-slate-600 transition flex items-center gap-1.5 text-xs font-semibold">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+            <span class="hidden md:inline">Logout</span>
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="flex space-x-1 sm:space-x-4 overflow-x-auto pb-px text-sm font-semibold border-t border-slate-100">
+        <button onclick="switchTab('dashboard')" id="tabBtn-dashboard" class="tab-link py-3 px-3 border-b-2 font-bold text-brand-600 border-brand-600 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+        </button>
+        <button onclick="switchTab('library')" id="tabBtn-library" class="tab-link py-3 px-3 border-b-2 text-slate-500 border-transparent hover:text-slate-800 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="book-marked" class="w-4 h-4"></i> Books Vault & Notes
+          <span id="navBookBadge" class="bg-indigo-50 text-brand-700 text-[11px] font-bold px-1.5 py-0.2 rounded-full border border-indigo-100">0 Books</span>
+        </button>
+        <button onclick="switchTab('attendance')" id="tabBtn-attendance" class="tab-link py-3 px-3 border-b-2 text-slate-500 border-transparent hover:text-slate-800 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="calendar-check" class="w-4 h-4"></i> Attendance
+        </button>
+        <button onclick="switchTab('marks')" id="tabBtn-marks" class="tab-link py-3 px-3 border-b-2 text-slate-500 border-transparent hover:text-slate-800 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="line-chart" class="w-4 h-4"></i> Marks & Progress
+        </button>
+        <button onclick="switchTab('homework')" id="tabBtn-homework" class="tab-link py-3 px-3 border-b-2 text-slate-500 border-transparent hover:text-slate-800 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="file-check-2" class="w-4 h-4"></i> Homework & Tasks
+        </button>
+        <button onclick="switchTab('directory')" id="tabBtn-directory" class="tab-link py-3 px-3 border-b-2 text-slate-500 border-transparent hover:text-slate-800 flex items-center gap-2 whitespace-nowrap">
+          <i data-lucide="users" class="w-4 h-4"></i> <span id="navDirectoryTitle">Student Enrollment & Directory</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Viewer Notification Banner (Shown only to student accounts) -->
+  <div id="viewerBanner" class="hidden bg-emerald-500/10 border-b border-emerald-500/20 px-4 py-2 text-emerald-900 text-xs">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="shield" class="w-4 h-4 text-emerald-600"></i>
+        <span><strong>Student Access Mode:</strong> You are logged in with student credentials. All educational materials, attendance, and mark-sheets are in secure read-only mode.</span>
+      </div>
+      <button onclick="openDeployGuideModal()" class="underline font-bold text-emerald-800 hover:text-emerald-900">Website Info</button>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ========================================================= -->
+    <!-- TAB 1: DASHBOARD -->
+    <!-- ========================================================= -->
+    <div id="tab-dashboard" class="space-y-6">
+      
+      <!-- Hero Banner -->
+      <div class="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-brand-900 via-indigo-900 to-slate-900 text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-brand-200 border border-white/15 mb-3 backdrop-blur-sm">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="heroRoleText">Super Admin Active: Pradeep</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold font-display tracking-tight text-white">
+            Welcome to Kalyani Coaching Classes
+          </h2>
+          <p class="mt-2 text-indigo-100 text-sm sm:text-base leading-relaxed">
+            Centralized hub for curriculum books, student attendance registers, test performance tracking, and parental updates for all enrolled students.
+          </p>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3">
+            <button onclick="switchTab('library')" class="px-4 py-2.5 bg-white text-brand-800 font-bold text-xs sm:text-sm rounded-xl shadow hover:bg-brand-50 transition flex items-center gap-2">
+              <i data-lucide="arrow-down-to-line" class="w-4 h-4"></i> Books & Notes Vault
+            </button>
+            <button onclick="switchTab('directory')" class="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm rounded-xl border border-white/20 transition flex items-center gap-2 backdrop-blur-sm">
+              <i data-lucide="user-plus" class="w-4 h-4"></i> Manage Student Accounts
+            </button>
+            <button onclick="openDeployGuideModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm rounded-xl transition flex items-center gap-2 shadow">
+              <i data-lucide="rocket" class="w-4 h-4"></i> Publish Website (Free)
+            </button>
+          </div>
+        </div>
+
+        <div class="absolute -right-8 -bottom-12 opacity-10 pointer-events-none">
+          <i data-lucide="book-open-check" class="w-80 h-80"></i>
+        </div>
+      </div>
+
+      <!-- Quick Stats KPI Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- 1: Total Students -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500 uppercase">Enrolled Students</span>
+            <div class="p-2 rounded-xl bg-blue-50 text-blue-600"><i data-lucide="users" class="w-4 h-4"></i></div>
+          </div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span id="kpiTotalStudents" class="text-2xl font-extrabold text-slate-900">0</span>
+            <span class="text-xs text-brand-600 font-bold">Capacity: 2,000+</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">Managed directly by Pradeep</p>
+        </div>
+
+        <!-- 2: Digital Books Available -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500 uppercase">Books in Vault</span>
+            <div class="p-2 rounded-xl bg-indigo-50 text-brand-600"><i data-lucide="book" class="w-4 h-4"></i></div>
+          </div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span id="kpiBooksCount" class="text-2xl font-extrabold text-slate-900">0</span>
+            <span class="text-xs text-brand-600 font-bold">Downloadable</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">PDFs & Handwritten Notes</p>
+        </div>
+
+        <!-- 3: Attendance Average -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500 uppercase">Avg Attendance</span>
+            <div class="p-2 rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="check-check" class="w-4 h-4"></i></div>
+          </div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span id="kpiAvgAttendance" class="text-2xl font-extrabold text-slate-900">93.5%</span>
+            <span class="text-xs text-emerald-600 font-bold">Optimal</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">Class Attendance Benchmark</p>
+        </div>
+
+        <!-- 4: Tests -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500 uppercase">Tests Logged</span>
+            <div class="p-2 rounded-xl bg-amber-50 text-amber-600"><i data-lucide="trophy" class="w-4 h-4"></i></div>
+          </div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span id="kpiTestsCount" class="text-2xl font-extrabold text-slate-900">5</span>
+            <span class="text-xs text-slate-500">Term 2</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">Unit Tests & Grand Exams</p>
+        </div>
+      </div>
+
+      <!-- Dashboard Visual Highlights (2 Columns) -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Performance Trend Chart -->
+        <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+            <div>
+              <h3 class="font-bold text-slate-900 text-base">Academic Batch Performance & Attendance Trend</h3>
+              <p class="text-xs text-slate-500">Aggregate analytics for Kalyani Coaching Classes</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-lg bg-indigo-50 text-brand-700 text-xs font-bold border border-indigo-100">Live Telemetry</span>
+          </div>
+          <div class="relative h-64 w-full">
+            <canvas id="overviewChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Notices & Support Card -->
+        <div class="space-y-6">
+          <!-- Official Notice Board -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                <i data-lucide="bell-ring" class="w-4 h-4 text-brand-600"></i> Notice Board
+              </h4>
+              <span class="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded font-bold uppercase">Official</span>
+            </div>
+            <div class="space-y-3">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <div class="flex justify-between items-center text-[10px] text-slate-400 font-semibold">
+                  <span>ALL ENROLLED</span>
+                  <span>TODAY</span>
+                </div>
+                <p class="text-xs font-bold text-slate-800 mt-1">Student Login Passwords Activated</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">Students can login with their Roll No / Username and access materials.</p>
+              </div>
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <div class="flex justify-between items-center text-[10px] text-slate-400 font-semibold">
+                  <span>FACULTY DESK</span>
+                  <span>SESSION 2026</span>
+                </div>
+                <p class="text-xs font-bold text-slate-800 mt-1">Formula & Notes PDF Downloads Unlocked</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">Free unlimited downloads for all registered students.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Direct Office Contacts Card -->
+          <div class="bg-gradient-to-br from-indigo-50 to-brand-50 p-5 rounded-2xl border border-brand-100">
+            <h4 class="font-bold text-brand-900 text-sm mb-2 flex items-center gap-1.5">
+              <i data-lucide="headset" class="w-4 h-4 text-brand-700"></i> Kalyani Classes Helpline Desk
+            </h4>
+            <p class="text-xs text-brand-800/80 mb-3">Reach out directly for admissions, timing schedules, or account credential resets:</p>
+            <div class="space-y-1.5 font-mono text-xs">
+              <a href="tel:8600436946" class="flex items-center justify-between p-2 rounded-lg bg-white/80 hover:bg-white text-slate-800 transition border border-brand-100 font-semibold">
+                <span>Helpline 1</span>
+                <span class="text-brand-700 font-bold">8600436946</span>
+              </a>
+              <a href="tel:8484881501" class="flex items-center justify-between p-2 rounded-lg bg-white/80 hover:bg-white text-slate-800 transition border border-brand-100 font-semibold">
+                <span>Helpline 2</span>
+                <span class="text-brand-700 font-bold">8484881501</span>
+              </a>
+              <a href="tel:9860646501" class="flex items-center justify-between p-2 rounded-lg bg-white/80 hover:bg-white text-slate-800 transition border border-brand-100 font-semibold">
+                <span>Director Desk</span>
+                <span class="text-brand-700 font-bold">9860646501</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 2: DIGITAL LIBRARY & BOOK DOWNLOADS -->
+    <!-- ========================================================= -->
+    <div id="tab-library" class="hidden space-y-6">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-extrabold text-slate-900">Digital Library & Downloadable Study Vault</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Open Access</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Official textbooks, notes, and question banks for enrolled students.</p>
+        </div>
+
+        <div class="admin-only-control">
+          <button onclick="openAddBookModal()" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-2">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i> Add Book / Notes (Admin)
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+        <div class="sm:col-span-6 relative">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+          <input type="text" id="bookSearchInput" oninput="filterBooks()" placeholder="Search by title, subject, or author..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+        </div>
+
+        <div class="sm:col-span-3">
+          <select id="bookClassFilter" onchange="filterBooks()" class="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white text-slate-700">
+            <option value="all">All Classes</option>
+            <option value="10th">Class 10th</option>
+            <option value="11th">Class 11th</option>
+            <option value="12th">Class 12th</option>
+            <option value="JEE/NEET">JEE / NEET</option>
+          </select>
+        </div>
+
+        <div class="sm:col-span-3">
+          <select id="bookSubjectFilter" onchange="filterBooks()" class="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white text-slate-700">
+            <option value="all">All Subjects</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Biology">Biology</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Books Grid -->
+      <div id="booksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 3: ATTENDANCE MANAGEMENT -->
+    <!-- ========================================================= -->
+    <div id="tab-attendance" class="hidden space-y-6">
+
+      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-extrabold text-slate-900">Attendance Register & Tracker</h2>
+            <span id="attModeBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-50 text-brand-700 border border-brand-200">Admin Mode</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Daily batch attendance logging and parent SMS tracking system.</p>
+        </div>
+
+        <div class="flex items-center flex-wrap gap-2">
+          <input type="date" id="attendanceDate" class="py-2 px-3 border border-slate-300 rounded-xl text-xs font-semibold bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500" value="2026-10-25" onchange="renderAttendanceRoster()">
+          <select id="attendanceBatchSelect" class="py-2 px-3 border border-slate-300 rounded-xl text-xs font-semibold bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500" onchange="renderAttendanceRoster()">
+            <option value="all">All Batches</option>
+            <option value="Class 10th - Batch Alpha">Class 10th - Batch Alpha</option>
+            <option value="Class 10th - Batch Beta">Class 10th - Batch Beta</option>
+            <option value="Class 11th - Sci PCM">Class 11th - Sci PCM</option>
+            <option value="Class 12th - Board Focus">Class 12th - Board Focus</option>
+            <option value="JEE / NEET Morning Star">JEE / NEET Morning Star</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Quick Attendance Overview Counters -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+          <span class="text-xs font-medium text-slate-500">Total in View</span>
+          <p id="attStatTotal" class="text-xl font-bold text-slate-900 mt-1">0</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-emerald-100 bg-emerald-50/30 shadow-2xs">
+          <span class="text-xs font-medium text-emerald-700">Present</span>
+          <p id="attStatPresent" class="text-xl font-bold text-emerald-600 mt-1">0</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-rose-100 bg-rose-50/30 shadow-2xs">
+          <span class="text-xs font-medium text-rose-700">Absent</span>
+          <p id="attStatAbsent" class="text-xl font-bold text-rose-600 mt-1">0</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-amber-100 bg-amber-50/30 shadow-2xs">
+          <span class="text-xs font-medium text-amber-700">Late / Leave</span>
+          <p id="attStatLate" class="text-xl font-bold text-amber-600 mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- Admin Actions Toolbar -->
+      <div class="admin-only-control flex items-center justify-between bg-slate-100/80 p-3 rounded-xl border border-slate-200">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-slate-700">Bulk Mark:</span>
+          <button onclick="bulkMarkAttendance('present')" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700 transition">All Present</button>
+          <button onclick="bulkMarkAttendance('absent')" class="px-2.5 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-semibold hover:bg-rose-700 transition">All Absent</button>
+        </div>
+        <button onclick="saveAttendanceRegister()" class="px-4 py-1.5 rounded-lg bg-brand-600 text-white text-xs font-bold hover:bg-brand-700 transition flex items-center gap-1.5">
+          <i data-lucide="save" class="w-3.5 h-3.5"></i> Save Roster State
+        </button>
+      </div>
+
+      <!-- Student Personal Attendance View Card -->
+      <div id="viewerAttendanceSummaryCard" class="hidden bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="flex items-center gap-4">
+            <div id="studentPersonalAttBadge" class="w-16 h-16 rounded-2xl bg-indigo-100 text-brand-700 flex items-center justify-center font-extrabold text-2xl font-mono">
+              95%
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-slate-800">Your Academic Attendance Record</h3>
+              <p class="text-xs text-slate-500">Student: <strong id="studentAttName">---</strong> | Roll No: <strong id="studentAttRoll">---</strong></p>
+              <div class="flex items-center gap-4 mt-2 text-xs">
+                <span class="text-emerald-600 font-semibold flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Regular Status</span>
+                <span class="text-slate-500">Eligible for Final Board & Mock Examinations</span>
+              </div>
+            </div>
+          </div>
+          <div class="px-4 py-2 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-200 text-xs font-bold text-center">
+            Good Academic Standing
+          </div>
+        </div>
+      </div>
+
+      <!-- Attendance Roster Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+        <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+          <h3 class="font-bold text-slate-800 text-sm">Batch Attendance Register</h3>
+          <span class="text-xs text-slate-500" id="attTableHint">Click P/A/L to toggle student status (Admin only)</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 uppercase font-semibold text-[11px] border-b border-slate-100">
+              <tr>
+                <th class="py-3 px-4">Roll No.</th>
+                <th class="py-3 px-4">Student Name</th>
+                <th class="py-3 px-4">Class & Batch</th>
+                <th class="py-3 px-4">Overall %</th>
+                <th class="py-3 px-4">Status Today</th>
+                <th class="py-3 px-4 text-right">Verification</th>
+              </tr>
+            </thead>
+            <tbody id="attendanceTableBody" class="divide-y divide-slate-100">
+              <!-- Injected dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 4: MARKS & ACADEMIC PROGRESS -->
+    <!-- ========================================================= -->
+    <div id="tab-marks" class="hidden space-y-6">
+
+      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-extrabold text-slate-900">Marks Entry & Progress Analytics</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">Session 2026</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Test scores, comparative rank analytics, and downloadable report cards.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="openNewTestModal()" class="admin-only-control px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-2">
+            <i data-lucide="plus" class="w-4 h-4"></i> Create Test / Log Score (Admin)
+          </button>
+          <button onclick="exportReportCardModal()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-xl border border-slate-300 transition flex items-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i> Official Report Card
+          </button>
+        </div>
+      </div>
+
+      <!-- Analytics Graph for Marks Progress -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-bold text-slate-800 text-sm">Academic Performance Growth</h3>
+              <p class="text-xs text-slate-500">Student score vs. Batch Average</p>
+            </div>
+            <span class="text-xs font-bold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-lg">Performance: High</span>
+          </div>
+          <div class="relative h-64 w-full">
+            <canvas id="studentProgressChart"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm mb-1">Subject Proficiency</h3>
+            <p class="text-xs text-slate-500 mb-4">Evaluation across core curriculum</p>
+            
+            <div class="space-y-3">
+              <div>
+                <div class="flex justify-between text-xs font-semibold mb-1">
+                  <span>Mathematics (Advanced)</span>
+                  <span class="text-emerald-600 font-bold">95%</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                  <div class="bg-emerald-500 h-2 rounded-full" style="width: 95%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-semibold mb-1">
+                  <span>Physics (Theory & Numerical)</span>
+                  <span class="text-brand-600 font-bold">92%</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                  <div class="bg-brand-600 h-2 rounded-full" style="width: 92%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-semibold mb-1">
+                  <span>Chemistry</span>
+                  <span class="text-indigo-600 font-bold">88%</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                  <div class="bg-indigo-500 h-2 rounded-full" style="width: 88%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-semibold mb-1">
+                  <span>Biology / Computer Science</span>
+                  <span class="text-amber-600 font-bold">86%</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                  <div class="bg-amber-500 h-2 rounded-full" style="width: 86%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+            <span>Cumulative Status:</span>
+            <span class="text-sm font-extrabold text-emerald-600">A+ Distinction</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Test Marks Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+        <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm">Examinations & Test Score Register</h3>
+            <p class="text-xs text-slate-500">Official marks evaluated by Kalyani Coaching faculty.</p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 uppercase font-semibold text-[11px] border-b border-slate-100">
+              <tr>
+                <th class="py-3 px-4">Test Title</th>
+                <th class="py-3 px-4">Subject</th>
+                <th class="py-3 px-4">Date</th>
+                <th class="py-3 px-4">Max Marks</th>
+                <th class="py-3 px-4">Score</th>
+                <th class="py-3 px-4">Batch Average</th>
+                <th class="py-3 px-4">Grade</th>
+                <th class="py-3 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="testMarksTableBody" class="divide-y divide-slate-100">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 5: HOMEWORK & TASKS -->
+    <!-- ========================================================= -->
+    <div id="tab-homework" class="hidden space-y-6">
+
+      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-extrabold text-slate-900">Homework & Assignment Tracker</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">Curriculum Tasks</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Download assignments and turn in solutions online.</p>
+        </div>
+
+        <button onclick="openAddHomeworkModal()" class="admin-only-control px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i> Post New Assignment (Admin)
+        </button>
+      </div>
+
+      <!-- Homework List Grid -->
+      <div id="homeworkContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Injected dynamically -->
+      </div>
+
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- TAB 6: STUDENT ENROLLMENT & DIRECTORY (ADMIN POWERS) -->
+    <!-- ========================================================= -->
+    <div id="tab-directory" class="hidden space-y-6">
+
+      <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-extrabold text-slate-900">Student Enrollment & Credential Manager</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-brand-700 border border-indigo-200">Master Directory</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Pradeep's Master Control: Add, edit, remove students, and issue login credentials for parents/students.</p>
+        </div>
+
+        <div class="flex items-center flex-wrap gap-2">
+          <button onclick="openEnrollStudentModal()" class="admin-only-control px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-2">
+            <i data-lucide="user-plus" class="w-4 h-4"></i> Enroll New Student
+          </button>
+          <button onclick="exportStudentsCSV()" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl border border-slate-300 transition flex items-center gap-1.5">
+            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Export Roster CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Directory Search & Batch Filter Bar -->
+      <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+        <div class="sm:col-span-6 relative">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+          <input type="text" id="studentSearchInput" oninput="filterStudentsDirectory()" placeholder="Search by name, roll no, or phone..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+        </div>
+        <div class="sm:col-span-4">
+          <select id="directoryBatchFilter" onchange="filterStudentsDirectory()" class="w-full py-2.5 px-3 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white text-slate-700">
+            <option value="all">All Enrolled Batches</option>
+            <option value="Class 10th - Batch Alpha">Class 10th - Batch Alpha</option>
+            <option value="Class 10th - Batch Beta">Class 10th - Batch Beta</option>
+            <option value="Class 11th - Sci PCM">Class 11th - Sci PCM</option>
+            <option value="Class 12th - Board Focus">Class 12th - Board Focus</option>
+            <option value="JEE / NEET Morning Star">JEE / NEET Morning Star</option>
+          </select>
+        </div>
+        <div class="sm:col-span-2 flex items-center justify-end text-xs font-bold text-slate-600">
+          <span id="directoryCountLabel">0 Students</span>
+        </div>
+      </div>
+
+      <!-- Student Directory Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-600 uppercase font-semibold text-[11px] border-b border-slate-100">
+              <tr>
+                <th class="py-3 px-4">Roll No.</th>
+                <th class="py-3 px-4">Student Name</th>
+                <th class="py-3 px-4">Batch</th>
+                <th class="py-3 px-4">Login Username</th>
+                <th class="py-3 px-4">Student Phone</th>
+                <th class="py-3 px-4">Parent Phone</th>
+                <th class="py-3 px-4">Attendance</th>
+                <th class="py-3 px-4 text-right">Master Actions</th>
+              </tr>
+            </thead>
+            <tbody id="directoryTableBody" class="divide-y divide-slate-100">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-slate-900 text-slate-300 text-xs mt-12 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <!-- About -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-brand-600 flex items-center justify-center text-white font-bold">
+              <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+            </div>
+            <span class="font-display font-bold text-white text-base">Kalyani Coaching Classes</span>
+          </div>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            Leading academic coaching institution for Maharashtra State Board, CBSE, JEE Mains, and NEET examinations.
+          </p>
+          <p class="text-slate-500 text-[11px]">Master Administrator: <strong>Pradeep</strong></p>
+        </div>
+
+        <!-- Contact Numbers -->
+        <div class="space-y-2">
+          <h5 class="text-white font-bold uppercase tracking-wider text-[11px]">Direct Helplines</h5>
+          <ul class="space-y-1.5 text-slate-400 font-mono">
+            <li>
+              <a href="tel:8600436946" class="hover:text-emerald-400 flex items-center gap-1.5 transition">
+                <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-500"></i> +91 86004 36946
+              </a>
+            </li>
+            <li>
+              <a href="tel:8484881501" class="hover:text-emerald-400 flex items-center gap-1.5 transition">
+                <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-500"></i> +91 84848 81501
+              </a>
+            </li>
+            <li>
+              <a href="tel:9860646501" class="hover:text-emerald-400 flex items-center gap-1.5 transition">
+                <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-500"></i> +91 98606 46501
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Portals -->
+        <div class="space-y-2">
+          <h5 class="text-white font-bold uppercase tracking-wider text-[11px]">Academic Portals</h5>
+          <ul class="space-y-1 text-slate-400">
+            <li><button onclick="switchTab('library')" class="hover:text-white transition">Books & Notes Vault</button></li>
+            <li><button onclick="switchTab('attendance')" class="hover:text-white transition">Attendance Register</button></li>
+            <li><button onclick="switchTab('marks')" class="hover:text-white transition">Marks & Test Reports</button></li>
+            <li><button onclick="switchTab('homework')" class="hover:text-white transition">Homework System</button></li>
+          </ul>
+        </div>
+
+        <!-- Class Hours & Desk -->
+        <div class="space-y-2">
+          <h5 class="text-white font-bold uppercase tracking-wider text-[11px]">Campus Desk</h5>
+          <p class="text-slate-400 text-xs">
+            Mon - Sat: 7:00 AM - 8:30 PM<br>
+            Sun Test Series: 8:00 AM - 1:00 PM
+          </p>
+          <button onclick="openDeployGuideModal()" class="w-full mt-2 py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-brand-300 font-bold border border-slate-700 transition flex items-center justify-center gap-2">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Free Website Hosting Guide
+          </button>
+        </div>
+
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-slate-500 text-[11px] gap-2">
+        <span>&copy; 2026 Kalyani Coaching Classes. All Rights Reserved.</span>
+        <span>Helplines: 8600436946 / 8484881501 / 9860646501</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. ENROLL NEW STUDENT MODAL (ADMIN ONLY) -->
+  <div id="enrollStudentModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 border border-slate-200 shadow-2xl animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <i data-lucide="user-plus" class="w-5 h-5 text-brand-600"></i> Enroll Student & Generate Login
+        </h3>
+        <button onclick="closeEnrollStudentModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form id="enrollStudentForm" onsubmit="handleEnrollStudent(event)" class="space-y-3.5 mt-4 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Student Full Name *</label>
+          <input type="text" id="newStudentName" required placeholder="e.g. Ramesh Kulkarni" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Roll Number / ID *</label>
+            <input type="text" id="newStudentRoll" required placeholder="e.g. KC-1051" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:outline-none font-mono">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Batch / Class *</label>
+            <select id="newStudentBatch" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
+              <option value="Class 10th - Batch Alpha">Class 10th - Batch Alpha</option>
+              <option value="Class 10th - Batch Beta">Class 10th - Batch Beta</option>
+              <option value="Class 11th - Sci PCM">Class 11th - Sci PCM</option>
+              <option value="Class 12th - Board Focus">Class 12th - Board Focus</option>
+              <option value="JEE / NEET Morning Star">JEE / NEET Morning Star</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 p-3 bg-brand-50/60 rounded-2xl border border-brand-100">
+          <div>
+            <label class="block font-bold text-brand-900 mb-1">Student Login Username *</label>
+            <input type="text" id="newStudentUser" required placeholder="e.g. ramesh10" class="w-full p-2.5 rounded-xl border border-brand-200 bg-white font-mono focus:ring-2 focus:ring-brand-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-bold text-brand-900 mb-1">Login Password *</label>
+            <input type="text" id="newStudentPass" required value="kalyani@2026" class="w-full p-2.5 rounded-xl border border-brand-200 bg-white font-mono focus:ring-2 focus:ring-brand-500 focus:outline-none">
+          </div>
+          <div class="col-span-2 text-[10px] text-brand-700">
+            The student will use this username and password to log in to Kalyani Coaching Classes portal.
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Student Mobile Phone</label>
+            <input type="text" id="newStudentPhone" placeholder="e.g. 9876543210" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:outline-none font-mono">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Parent Mobile Phone *</label>
+            <input type="text" id="newStudentParentPhone" required placeholder="e.g. 9822334455" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:outline-none font-mono">
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeEnrollStudentModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 font-bold hover:bg-slate-50">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold shadow">Save & Issue Credentials</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. STUDENT CREDENTIALS SHARING CARD MODAL -->
+  <div id="credentialsModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 border border-slate-200 shadow-2xl animate-in fade-in zoom-in-95">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <i data-lucide="send" class="w-5 h-5 text-emerald-600"></i> Student Portal Credentials Card
+        </h3>
+        <button onclick="closeCredentialsModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="mt-4 p-5 rounded-2xl bg-slate-50 border border-slate-200 text-xs space-y-3 font-mono" id="credentialsCardContent">
+        <!-- Injected dynamically -->
+      </div>
+
+      <div class="mt-4 flex justify-end gap-2">
+        <button onclick="closeCredentialsModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 text-xs font-bold hover:bg-slate-50">Close</button>
+        <button onclick="copyCredentialsText()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy to WhatsApp / SMS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. IN-APP DEPLOYMENT & HOSTING GUIDE MODAL -->
+  <div id="deployGuideModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 border border-slate-200 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="globe" class="w-5 h-5 text-brand-600"></i> How to Publish Kalyani Coaching Classes Free
+          </h3>
+          <p class="text-xs text-slate-500">Go live in less than 5 minutes on the web without any cost</p>
+        </div>
+        <button onclick="closeDeployGuideModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="space-y-4 mt-4 text-xs text-slate-700 leading-relaxed">
+        
+        <!-- Method 1: Netlify Drag & Drop (Fastest) -->
+        <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100">
+          <h4 class="font-bold text-brand-900 text-sm flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-brand-600 text-white flex items-center justify-center text-xs">1</span>
+            Method 1: Netlify Drop (Takes 60 seconds - No coding required)
+          </h4>
+          <ol class="list-decimal pl-5 mt-2 space-y-1.5">
+            <li>Save this file on your computer as <code>index.html</code> inside a new folder named <code>kalyani-portal</code>.</li>
+            <li>Visit <a href="https://app.netlify.com/drop" target="_blank" class="text-brand-600 underline font-bold">app.netlify.com/drop</a> in your browser.</li>
+            <li>Drag & drop the entire <code>kalyani-portal</code> folder into the designated box.</li>
+            <li>Netlify will give you an instant live URL like <code>kalyani-classes.netlify.app</code> that anyone can open on phone or PC!</li>
+          </ol>
+        </div>
+
+        <!-- Method 2: Vercel (Recommended for custom domain) -->
+        <div class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100">
+          <h4 class="font-bold text-emerald-950 text-sm flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">2</span>
+            Method 2: Vercel Free Hosting
+          </h4>
+          <ol class="list-decimal pl-5 mt-2 space-y-1.5">
+            <li>Create a free account on <a href="https://vercel.com" target="_blank" class="text-emerald-700 underline font-bold">vercel.com</a>.</li>
+            <li>Push this file to a GitHub repository or use Vercel CLI (<code>vercel deploy</code>).</li>
+            <li>Connect your own custom domain (e.g. <code>kalyanicoaching.in</code> or <code>.com</code>) at zero hosting fees.</li>
+          </ol>
+        </div>
+
+        <!-- Method 3: GitHub Pages -->
+        <div class="p-4 rounded-2xl bg-slate-100 border border-slate-200">
+          <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-slate-700 text-white flex items-center justify-center text-xs">3</span>
+            Method 3: GitHub Pages
+          </h4>
+          <ol class="list-decimal pl-5 mt-2 space-y-1.5">
+            <li>Create a free GitHub repository (e.g., <code>kalyani-coaching</code>).</li>
+            <li>Upload this <code>index.html</code> to the root branch (<code>main</code>).</li>
+            <li>Go to <strong>Settings &rarr; Pages &rarr; Source</strong> and pick <code>main branch / root</code>.</li>
+            <li>Your site goes live at <code>https://yourusername.github.io/kalyani-coaching</code>.</li>
+          </ol>
+        </div>
+
+        <!-- PostgreSQL / Supabase Next Step -->
+        <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 text-amber-900">
+          <h5 class="font-bold mb-1">Tip for 2,000+ Students Cloud Sync:</h5>
+          <p class="text-[11px]">This application already saves everything in browser storage. When you want automatic cross-device synchronization between teacher phones and student laptops, connect a free <strong>Supabase (PostgreSQL)</strong> project using their JavaScript client.</p>
+        </div>
+      </div>
+
+      <div class="mt-4 flex justify-end">
+        <button onclick="closeDeployGuideModal()" class="px-5 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800">Got it!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Interactive Book Reader Modal -->
+  <div id="bookReaderModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-4xl w-full h-[85vh] flex flex-col overflow-hidden shadow-2xl border border-slate-300 animate-in fade-in zoom-in-95">
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <i data-lucide="file-text" class="w-5 h-5 text-brand-400"></i>
+          <div>
+            <h3 id="modalBookTitle" class="text-sm font-bold leading-tight">Mathematics Class 10 NCERT Exemplar</h3>
+            <p id="modalBookMeta" class="text-[11px] text-slate-400">Class 10th | Subject: Mathematics</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="modalDirectDownloadBtn" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i> Download PDF
+          </button>
+          <button onclick="closeBookModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-1 bg-slate-100 p-6 overflow-y-auto flex flex-col items-center">
+        <div class="bg-white shadow-xl rounded-xl w-full max-w-2xl p-8 border border-slate-200 text-slate-800 space-y-6">
+          <div class="text-center border-b border-slate-200 pb-4">
+            <p class="text-xs font-bold text-brand-600 uppercase tracking-widest">Kalyani Coaching Classes • Academic Vault</p>
+            <h2 id="paperBookTitle" class="text-xl font-extrabold text-slate-900 mt-1">Study Material</h2>
+            <p class="text-xs text-slate-500 mt-1">Prepared by Kalyani Coaching Faculty Team</p>
+          </div>
+
+          <div class="space-y-4 text-xs leading-relaxed text-slate-700">
+            <h4 class="font-bold text-slate-900 text-sm">Key Concepts & Chapter Formulas</h4>
+            <p>1. <strong>Academic Focus:</strong> Comprehensive chapter summary, board-repeater questions, and solved problem sheets.</p>
+            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 font-mono text-[11px] text-slate-800">
+              Helpline: 8600436946 / 8484881501 | Director Desk: 9860646501
+            </div>
+            <p>2. Direct classroom discussions are conducted daily in accordance with this material.</p>
+          </div>
+
+          <div class="text-center pt-6 border-t border-slate-100 text-slate-400 text-[11px]">
+            Official Verified Copy for Registered Kalyani Coaching Students
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Admin: Add New Book Modal -->
+  <div id="addBookModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 border border-slate-200 shadow-2xl animate-in fade-in zoom-in-95">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <i data-lucide="book-plus" class="w-5 h-5 text-brand-600"></i> Add Book to Library (Admin)
+        </h3>
+        <button onclick="closeAddBookModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <form id="addBookForm" onsubmit="submitAddBook(event)" class="space-y-3 mt-4 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Book / Document Title *</label>
+          <input type="text" id="newBookTitle" required placeholder="e.g. Physics Formula Handbook 2026" class="w-full p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Class</label>
+            <select id="newBookClass" class="w-full p-2.5 rounded-xl border border-slate-300 bg-white">
+              <option value="10th">Class 10th</option>
+              <option value="11th">Class 11th</option>
+              <option value="12th">Class 12th</option>
+              <option value="JEE/NEET">JEE / NEET</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Subject</label>
+            <select id="newBookSubject" class="w-full p-2.5 rounded-xl border border-slate-300 bg-white">
+              <option value="Mathematics">Mathematics</option>
+              <option value="Physics">Physics</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Biology">Biology</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Category</label>
+            <select id="newBookCategory" class="w-full p-2.5 rounded-xl border border-slate-300 bg-white">
+              <option value="Textbook">Textbook</option>
+              <option value="Notes">Faculty Notes</option>
+              <option value="Formula">Formula Sheet</option>
+              <option value="PYQ">Question Bank</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">File Size</label>
+            <input type="text" id="newBookSize" value="14.5 MB" class="w-full p-2.5 rounded-xl border border-slate-300">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Faculty / Author</label>
+          <input type="text" id="newBookAuthor" value="Pradeep & Kalyani Faculty" class="w-full p-2.5 rounded-xl border border-slate-300">
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeAddBookModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 font-bold hover:bg-slate-50">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold shadow">Save to Vault</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. Student Report Card Modal -->
+  <div id="reportCardModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 border border-slate-200 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Official Student Progress Card</h3>
+          <p class="text-xs text-slate-500">Kalyani Coaching Classes • Session 2026-27</p>
+        </div>
+        <button onclick="closeReportCardModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="mt-4 p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-4 text-xs" id="printableReportCard">
+        <div class="flex justify-between items-start border-b border-slate-200 pb-3">
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm" id="reportCardStudentName">---</h4>
+            <p class="text-slate-500">Roll No: <strong id="reportCardRoll">---</strong> | Batch: <strong id="reportCardBatch">---</strong></p>
+          </div>
+          <div class="text-right">
+            <span class="px-3 py-1 bg-emerald-100 text-emerald-800 font-bold rounded-lg text-xs">Standing: Distinction</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <div class="p-3 bg-white rounded-xl border border-slate-200">
+            <span class="text-slate-400 text-[10px] uppercase font-bold">Attendance</span>
+            <p class="text-base font-extrabold text-slate-800 mt-0.5">94.5%</p>
+          </div>
+          <div class="p-3 bg-white rounded-xl border border-slate-200">
+            <span class="text-slate-400 text-[10px] uppercase font-bold">Cumulative Score</span>
+            <p class="text-base font-extrabold text-brand-600 mt-0.5">91.8%</p>
+          </div>
+          <div class="p-3 bg-white rounded-xl border border-slate-200">
+            <span class="text-slate-400 text-[10px] uppercase font-bold">Grade</span>
+            <p class="text-base font-extrabold text-emerald-600 mt-0.5">A+ Grade</p>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="font-bold text-slate-700 mb-1">Faculty Remarks:</h5>
+          <p class="italic text-slate-600">"Excellent consistency in solving daily numerical problems and attending tests punctually."</p>
+        </div>
+
+        <div class="pt-3 border-t border-slate-200 flex justify-between items-end text-[10px] text-slate-400 font-mono">
+          <div>
+            <span>Helplines: 8600436946 / 8484881501 / 9860646501</span><br>
+            <span>Director: Pradeep (Kalyani Coaching Classes)</span>
+          </div>
+          <div class="text-right font-sans font-bold text-slate-600">
+            [Authorized Seal & Signature]
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 flex justify-end gap-2">
+        <button onclick="closeReportCardModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-50">Close</button>
+        <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-brand-600 text-white text-xs font-bold hover:bg-brand-700 flex items-center gap-1.5 shadow">
+          <i data-lucide="printer" class="w-4 h-4"></i> Print Report Card
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Wrapper -->
+  <div id="toast" class="hidden fixed bottom-6 right-6 z-50 px-4 py-3 rounded-2xl bg-slate-900 text-white text-xs font-semibold shadow-2xl flex items-center gap-3 border border-slate-700 animate-in fade-in slide-in-from-bottom-3">
+    <i id="toastIcon" data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toastMsg">Action completed successfully</span>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    /* ========================================================
+       1. DATA STORAGE & INITIAL STATE
+       ======================================================== */
+    const MASTER_ADMIN = {
+      username: 'admin',
+      password: 'admin123',
+      name: 'Pradeep',
+      role: 'admin'
+    };
+
+    // Starting books in library
+    const INITIAL_BOOKS = [
+      { id: "b1", title: "Class 10th Mathematics Exemplar & Solutions", classLevel: "10th", subject: "Mathematics", category: "Textbook", author: "Kalyani Math Dept", size: "18.4 MB", downloads: 142 },
+      { id: "b2", title: "Concepts of Physics - Mechanics & Optics", classLevel: "11th", subject: "Physics", category: "Notes", author: "Pradeep & Team", size: "24.1 MB", downloads: 210 },
+      { id: "b3", title: "Chemistry Organic Reactions Quick Revision Map", classLevel: "12th", subject: "Chemistry", category: "Formula", author: "Kalyani Chemistry Cell", size: "6.8 MB", downloads: 340 }
+    ];
+
+    // Starting homework items
+    const INITIAL_HOMEWORK = [
+      { id: "hw1", title: "Maths: Quadratic Formula & Discriminant Worksheet", subject: "Mathematics", batch: "Class 10th - Batch Alpha", due: "Tomorrow 8:00 AM", status: "Active", attachment: "Quadratic_Set_1.pdf" },
+      { id: "hw2", title: "Physics: Numericals on Lens Equation", subject: "Physics", batch: "Class 12th - Board Focus", due: "Oct 28, 2026", status: "Active", attachment: "Optics_Numerical.pdf" }
+    ];
+
+    // Starting test items
+    const INITIAL_TESTS = [
+      { id: "t1", title: "Monthly Unit Test - Quadratic Equations", subject: "Mathematics", date: "2026-10-18", maxMarks: 50, scored: 48, avg: 38, grade: "A+" },
+      { id: "t2", title: "Physics Grand Mock #2 - Ray Optics", subject: "Physics", date: "2026-10-10", maxMarks: 100, scored: 91, avg: 72, grade: "A+" }
+    ];
+
+    // Hydrate State from LocalStorage
+    let students = JSON.parse(localStorage.getItem('kcc_students')) || [
+      {
+        id: "s1",
+        roll: "KC-1001",
+        name: "Aarav Sharma",
+        batch: "Class 10th - Batch Alpha",
+        username: "student101",
+        password: "kalyani@2026",
+        phone: "9822001122",
+        parentPhone: "8600436946",
+        attendanceRate: "96%",
+        statusToday: "present"
+      }
+    ];
+
+    let books = JSON.parse(localStorage.getItem('kcc_books')) || INITIAL_BOOKS;
+    let homeworkList = JSON.parse(localStorage.getItem('kcc_homework')) || INITIAL_HOMEWORK;
+    let tests = JSON.parse(localStorage.getItem('kcc_tests')) || INITIAL_TESTS;
+    
+    // Active Authenticated Session
+    let currentUser = JSON.parse(sessionStorage.getItem('kcc_auth_user')) || null;
+
+    let overviewChartInstance = null;
+    let progressChartInstance = null;
+
+    /* ========================================================
+       2. AUTHENTICATION & SESSION MANAGEMENT
+       ======================================================== */
+    function checkAuth() {
+      const overlay = document.getElementById('authOverlay');
+      if (!currentUser) {
+        overlay.classList.remove('hidden');
+      } else {
+        overlay.classList.add('hidden');
+        applyRolePermissions();
+      }
+    }
+
+    function fillLogin(u, p) {
+      document.getElementById('loginUsername').value = u;
+      document.getElementById('loginPassword').value = p;
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const u = document.getElementById('loginUsername').value.trim();
+      const p = document.getElementById('loginPassword').value.trim();
+      const errorMsg = document.getElementById('loginErrorMsg');
+
+      // Check Master Admin (Pradeep)
+      if (u === MASTER_ADMIN.username && p === MASTER_ADMIN.password) {
+        currentUser = {
+          role: 'admin',
+          username: MASTER_ADMIN.username,
+          name: MASTER_ADMIN.name
+        };
+        sessionStorage.setItem('kcc_auth_user', JSON.stringify(currentUser));
+        errorMsg.classList.add('hidden');
+        checkAuth();
+        showToast("Logged in as Super Admin (Pradeep). Full powers enabled.");
+        return;
+      }
+
+      // Check Enrolled Student Records
+      const matchedStudent = students.find(s => (s.username.toLowerCase() === u.toLowerCase() || s.roll.toLowerCase() === u.toLowerCase()) && s.password === p);
+
+      if (matchedStudent) {
+        currentUser = {
+          role: 'student',
+          studentId: matchedStudent.id,
+          roll: matchedStudent.roll,
+          name: matchedStudent.name,
+          batch: matchedStudent.batch,
+          username: matchedStudent.username,
+          phone: matchedStudent.phone,
+          parentPhone: matchedStudent.parentPhone,
+          attendanceRate: matchedStudent.attendanceRate
+        };
+        sessionStorage.setItem('kcc_auth_user', JSON.stringify(currentUser));
+        errorMsg.classList.add('hidden');
+        checkAuth();
+        showToast(`Welcome back, ${matchedStudent.name}!`);
+        return;
+      }
+
+      errorMsg.classList.remove('hidden');
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('kcc_auth_user');
+      currentUser = null;
+      checkAuth();
+      showToast("Logged out successfully.");
+    }
+
+    function applyRolePermissions() {
+      const isAdmin = (currentUser && currentUser.role === 'admin');
+      const isStudent = (currentUser && currentUser.role === 'student');
+
+      // Update Header info
+      document.getElementById('headerUserName').innerText = currentUser.name + (isAdmin ? ' (Admin)' : '');
+      document.getElementById('headerUserRole').innerText = isAdmin ? 'Super Administrator' : `Student (${currentUser.roll})`;
+      document.getElementById('userAvatar').innerText = currentUser.name.charAt(0).toUpperCase();
+
+      // Update hero text
+      document.getElementById('heroRoleText').innerText = isAdmin ? 'Super Admin Active: Pradeep (Full Control)' : `Logged in Student: ${currentUser.name} (${currentUser.roll})`;
+
+      // Toggle banners
+      const viewerBanner = document.getElementById('viewerBanner');
+      const attModeBadge = document.getElementById('attModeBadge');
+      const viewerAttendanceCard = document.getElementById('viewerAttendanceSummaryCard');
+
+      if (isAdmin) {
+        viewerBanner.classList.add('hidden');
+        attModeBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-50 text-brand-700 border border-brand-200";
+        attModeBadge.innerText = "Admin Register Mode";
+        viewerAttendanceCard.classList.add('hidden');
+        document.getElementById('attTableHint').innerText = "Click P / A / L to toggle status (Admin only)";
+        document.querySelectorAll('.admin-only-control').forEach(el => el.classList.remove('hidden'));
+      } else {
+        viewerBanner.classList.remove('hidden');
+        attModeBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
+        attModeBadge.innerText = "Student (Read-Only Mode)";
+        viewerAttendanceCard.classList.remove('hidden');
+        document.getElementById('attTableHint').innerText = "Read-only attendance view for enrolled batches";
+        
+        // Populate Student Personal Attendance Card
+        document.getElementById('studentAttName').innerText = currentUser.name;
+        document.getElementById('studentAttRoll').innerText = currentUser.roll;
+        document.getElementById('studentPersonalAttBadge').innerText = currentUser.attendanceRate || '95%';
+
+        // Hide admin controls
+        document.querySelectorAll('.admin-only-control').forEach(el => el.classList.add('hidden'));
+      }
+
+      updateKPIs();
+      renderBooks();
+      renderAttendanceRoster();
+      renderTests();
+      renderHomework();
+      renderStudentsDirectory();
+    }
+
+    function updateKPIs() {
+      document.getElementById('kpiTotalStudents').innerText = students.length;
+      document.getElementById('activeEnrolledLabel').innerText = `${students.length} Students Enrolled`;
+      document.getElementById('kpiBooksCount').innerText = books.length;
+      document.getElementById('navBookBadge').innerText = `${books.length} Books`;
+      document.getElementById('kpiTestsCount').innerText = tests.length;
+    }
+
+    /* ========================================================
+       3. NAVIGATION TABS
+       ======================================================== */
+    function switchTab(tabId) {
+      const tabs = ['dashboard', 'library', 'attendance', 'marks', 'homework', 'directory'];
+      tabs.forEach(t => {
+        const page = document.getElementById(`tab-${t}`);
+        const btn = document.getElementById(`tabBtn-${t}`);
+        if (t === tabId) {
+          page.classList.remove('hidden');
+          btn.className = "tab-link py-3 px-3 border-b-2 font-bold text-brand-600 border-brand-600 flex items-center gap-2 whitespace-nowrap";
+        } else {
+          page.classList.add('hidden');
+          btn.className = "tab-link py-3 px-3 border-b-2 font-medium text-slate-500 border-transparent hover:text-slate-800 flex items-center gap-2 whitespace-nowrap";
+        }
+      });
+
+      if (tabId === 'dashboard') {
+        setTimeout(initDashboardChart, 50);
+      }
+      if (tabId === 'marks') {
+        setTimeout(initProgressChart, 50);
+      }
+      lucide.createIcons();
+    }
+
+    /* ========================================================
+       4. STUDENT ENROLLMENT & CREDENTIAL MANAGEMENT
+       ======================================================== */
+    function openEnrollStudentModal() {
+      if (!currentUser || currentUser.role !== 'admin') {
+        showToast("Access Denied: Only Admin (Pradeep) can enroll students.");
+        return;
+      }
+      // Auto-suggest next roll number
+      document.getElementById('newStudentRoll').value = "KC-" + (1001 + students.length);
+      document.getElementById('enrollStudentModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeEnrollStudentModal() {
+      document.getElementById('enrollStudentModal').classList.add('hidden');
+    }
+
+    function handleEnrollStudent(e) {
+      e.preventDefault();
+      if (!currentUser || currentUser.role !== 'admin') return;
+
+      const name = document.getElementById('newStudentName').value.trim();
+      const roll = document.getElementById('newStudentRoll').value.trim();
+      const batch = document.getElementById('newStudentBatch').value;
+      const username = document.getElementById('newStudentUser').value.trim();
+      const password = document.getElementById('newStudentPass').value.trim();
+      const phone = document.getElementById('newStudentPhone').value.trim() || '---';
+      const parentPhone = document.getElementById('newStudentParentPhone').value.trim();
+
+      // Check unique roll or username
+      if (students.some(s => s.roll.toLowerCase() === roll.toLowerCase() || s.username.toLowerCase() === username.toLowerCase())) {
+        alert("A student with this Roll Number or Username already exists! Please pick a unique one.");
+        return;
+      }
+
+      const newStudent = {
+        id: "st_" + Date.now(),
+        roll,
+        name,
+        batch,
+        username,
+        password,
+        phone,
+        parentPhone,
+        attendanceRate: "100%",
+        statusToday: "present"
+      };
+
+      students.unshift(newStudent);
+      saveState();
+      closeEnrollStudentModal();
+      document.getElementById('enrollStudentForm').reset();
+      applyRolePermissions();
+      showToast(`Student ${name} enrolled successfully!`);
+
+      // Show shareable credentials card
+      openCredentialsCard(newStudent);
+    }
+
+    let lastCreatedStudent = null;
+    function openCredentialsCard(student) {
+      lastCreatedStudent = student;
+      const content = document.getElementById('credentialsCardContent');
+      content.innerHTML = `
+        <div class="text-center pb-2 border-b border-slate-200">
+          <p class="font-bold text-slate-800 text-sm">Kalyani Coaching Classes</p>
+          <p class="text-[11px] text-slate-500 font-sans">Official Student Portal Credentials</p>
+        </div>
+        <div class="space-y-1.5 text-xs text-slate-700">
+          <p><strong>Student:</strong> ${student.name}</p>
+          <p><strong>Roll No:</strong> ${student.roll}</p>
+          <p><strong>Batch:</strong> ${student.batch}</p>
+          <p class="p-2 bg-indigo-50 rounded-xl border border-indigo-100 text-brand-900">
+            <strong>Portal Login Username:</strong> <span class="text-brand-700 font-bold">${student.username}</span><br>
+            <strong>Portal Password:</strong> <span class="text-brand-700 font-bold">${student.password}</span>
+          </p>
+          <p><strong>Helpline:</strong> 8600436946 / 8484881501 / 9860646501</p>
+        </div>
+      `;
+      document.getElementById('credentialsModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeCredentialsModal() {
+      document.getElementById('credentialsModal').classList.add('hidden');
+    }
+
+    function copyCredentialsText() {
+      if (!lastCreatedStudent) return;
+      const text = `*Kalyani Coaching Classes - Student Portal Login*\n` +
+        `Student: ${lastCreatedStudent.name}\n` +
+        `Roll Number: ${lastCreatedStudent.roll}\n` +
+        `Batch: ${lastCreatedStudent.batch}\n` +
+        `Username: ${lastCreatedStudent.username}\n` +
+        `Password: ${lastCreatedStudent.password}\n\n` +
+        `Helplines: 8600436946 | 8484881501 | 9860646501\n` +
+        `Use these credentials to view study books, daily attendance, marks & homework.`;
+
+      const temp = document.createElement("textarea");
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp);
+
+      showToast("Credentials copied to clipboard! You can paste in WhatsApp/SMS now.");
+    }
+
+    function removeStudent(studentId) {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      const st = students.find(s => s.id === studentId);
+      if (!st) return;
+
+      if (confirm(`Are you sure you want to delete and un-enroll student "${st.name}" (${st.roll})? Their login will be immediately revoked.`)) {
+        students = students.filter(s => s.id !== studentId);
+        saveState();
+        applyRolePermissions();
+        showToast("Student deleted and removed from database.");
+      }
+    }
+
+    function shareExistingStudentCreds(studentId) {
+      const st = students.find(s => s.id === studentId);
+      if (st) openCredentialsCard(st);
+    }
+
+    function renderStudentsDirectory() {
+      const tbody = document.getElementById('directoryTableBody');
+      const search = document.getElementById('studentSearchInput')?.value.toLowerCase() || '';
+      const batchFilter = document.getElementById('directoryBatchFilter')?.value || 'all';
+      const isAdmin = (currentUser && currentUser.role === 'admin');
+
+      const filtered = students.filter(s => {
+        const matchSearch = s.name.toLowerCase().includes(search) || s.roll.toLowerCase().includes(search) || s.phone.includes(search) || s.parentPhone.includes(search);
+        const matchBatch = (batchFilter === 'all') || (s.batch === batchFilter);
+        return matchSearch && matchBatch;
+      });
+
+      document.getElementById('directoryCountLabel').innerText = `${filtered.length} Students`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" class="text-center py-8 text-slate-400">
+              <i data-lucide="user-x" class="w-8 h-8 mx-auto mb-2 opacity-50"></i>
+              No students enrolled yet. Click "Enroll New Student" above to add students.
+            </td>
+          </tr>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(s => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="py-3 px-4 font-mono font-bold text-brand-700">${s.roll}</td>
+          <td class="py-3 px-4 font-semibold text-slate-900">${s.name}</td>
+          <td class="py-3 px-4 text-slate-600">${s.batch}</td>
+          <td class="py-3 px-4 font-mono text-slate-600">${s.username}</td>
+          <td class="py-3 px-4 font-mono text-slate-500">${s.phone}</td>
+          <td class="py-3 px-4 font-mono text-slate-500">${s.parentPhone}</td>
+          <td class="py-3 px-4 font-bold text-emerald-600">${s.attendanceRate}</td>
+          <td class="py-3 px-4 text-right">
+            ${isAdmin ? `
+              <div class="inline-flex items-center gap-1.5">
+                <button onclick="shareExistingStudentCreds('${s.id}')" title="Copy Login Details" class="p-1 text-slate-500 hover:text-brand-600">
+                  <i data-lucide="key" class="w-4 h-4"></i>
+                </button>
+                <button onclick="removeStudent('${s.id}')" title="Delete Student" class="p-1 text-slate-400 hover:text-rose-600">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              </div>
+            ` : `
+              <span class="text-[11px] text-slate-400">Verified</span>
+            `}
+          </td>
+        </tr>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function filterStudentsDirectory() {
+      renderStudentsDirectory();
+    }
+
+    function exportStudentsCSV() {
+      if (students.length === 0) {
+        showToast("No students to export yet!");
+        return;
+      }
+      let csv = "data:text/csv;charset=utf-8,Roll Number,Name,Batch,Username,Password,Student Phone,Parent Phone,Attendance\n";
+      students.forEach(s => {
+        csv += `"${s.roll}","${s.name}","${s.batch}","${s.username}","${s.password}","${s.phone}","${s.parentPhone}","${s.attendanceRate}"\n`;
+      });
+      const encoded = encodeURI(csv);
+      const a = document.createElement("a");
+      a.setAttribute("href", encoded);
+      a.setAttribute("download", "Kalyani_Coaching_Students_Roster.csv");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast("Student roster exported to CSV file!");
+    }
+
+    /* ========================================================
+       5. ATTENDANCE MANAGEMENT
+       ======================================================== */
+    function renderAttendanceRoster() {
+      const tbody = document.getElementById('attendanceTableBody');
+      const batchFilter = document.getElementById('attendanceBatchSelect')?.value || 'all';
+      const isAdmin = (currentUser && currentUser.role === 'admin');
+
+      const filtered = students.filter(s => (batchFilter === 'all') || (s.batch === batchFilter));
+
+      document.getElementById('attStatTotal').innerText = filtered.length;
+      document.getElementById('attStatPresent').innerText = filtered.filter(s => s.statusToday === 'present').length;
+      document.getElementById('attStatAbsent').innerText = filtered.filter(s => s.statusToday === 'absent').length;
+      document.getElementById('attStatLate').innerText = filtered.filter(s => s.statusToday === 'late').length;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-400">No students registered in this batch yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(s => {
+        let badgeColor = "bg-emerald-100 text-emerald-800 border-emerald-300";
+        if (s.statusToday === 'absent') badgeColor = "bg-rose-100 text-rose-800 border-rose-300";
+        if (s.statusToday === 'late') badgeColor = "bg-amber-100 text-amber-800 border-amber-300";
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="py-3 px-4 font-mono font-bold text-slate-700">${s.roll}</td>
+            <td class="py-3 px-4 font-semibold text-slate-900">${s.name}</td>
+            <td class="py-3 px-4 text-slate-500">${s.batch}</td>
+            <td class="py-3 px-4 font-bold text-slate-700">${s.attendanceRate}</td>
+            <td class="py-3 px-4">
+              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold border uppercase ${badgeColor}">
+                ${s.statusToday || 'present'}
+              </span>
+            </td>
+            <td class="py-3 px-4 text-right">
+              ${isAdmin ? `
+                <div class="inline-flex items-center gap-1">
+                  <button onclick="setStudentAttStatus('${s.id}', 'present')" class="px-2 py-1 rounded ${s.statusToday === 'present' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'} font-bold">P</button>
+                  <button onclick="setStudentAttStatus('${s.id}', 'absent')" class="px-2 py-1 rounded ${s.statusToday === 'absent' ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-600'} font-bold">A</button>
+                  <button onclick="setStudentAttStatus('${s.id}', 'late')" class="px-2 py-1 rounded ${s.statusToday === 'late' ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-600'} font-bold">L</button>
+                </div>
+              ` : `
+                <span class="text-[11px] text-slate-400">Verified</span>
+              `}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function setStudentAttStatus(id, status) {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      const s = students.find(item => item.id === id);
+      if (s) {
+        s.statusToday = status;
+        saveState();
+        renderAttendanceRoster();
+      }
+    }
+
+    function bulkMarkAttendance(status) {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      students.forEach(s => s.statusToday = status);
+      saveState();
+      renderAttendanceRoster();
+      showToast(`All students marked as ${status.toUpperCase()}!`);
+    }
+
+    function saveAttendanceRegister() {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      saveState();
+      showToast("Attendance saved to portal memory successfully!");
+    }
+
+    /* ========================================================
+       6. DIGITAL LIBRARY & BOOK VAULT
+       ======================================================== */
+    function renderBooks() {
+      const grid = document.getElementById('booksGrid');
+      const search = document.getElementById('bookSearchInput')?.value.toLowerCase() || '';
+      const classFilter = document.getElementById('bookClassFilter')?.value || 'all';
+      const subjectFilter = document.getElementById('bookSubjectFilter')?.value || 'all';
+      const isAdmin = (currentUser && currentUser.role === 'admin');
+
+      const filtered = books.filter(b => {
+        const matchSearch = b.title.toLowerCase().includes(search) || b.subject.toLowerCase().includes(search);
+        const matchClass = (classFilter === 'all') || (b.classLevel === classFilter);
+        const matchSub = (subjectFilter === 'all') || (b.subject === subjectFilter);
+        return matchSearch && matchClass && matchSub;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center bg-white rounded-2xl border border-slate-200">
+            <i data-lucide="book-x" class="w-10 h-10 text-slate-400 mx-auto mb-2"></i>
+            <h4 class="font-bold text-slate-700">No books found in vault</h4>
+            <p class="text-xs text-slate-500 mt-1">Admin can click "Add Book / Notes" to upload curriculum materials.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      grid.innerHTML = filtered.map(b => `
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between group hover:shadow-md transition">
+          <div>
+            <div class="flex items-start justify-between">
+              <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase bg-indigo-50 text-brand-700 border border-indigo-200">${b.category}</span>
+              <span class="text-xs text-slate-400 font-medium">${b.size}</span>
+            </div>
+            <h3 class="font-bold text-slate-900 text-sm mt-3 group-hover:text-brand-600 transition">${b.title}</h3>
+            <div class="mt-2 text-xs text-slate-500 space-y-0.5">
+              <p>Subject: <strong class="text-slate-700">${b.subject}</strong> | Class: <strong class="text-slate-700">${b.classLevel}</strong></p>
+              <p>Author: ${b.author}</p>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-[11px] text-slate-400 font-medium flex items-center gap-1">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-600"></i> ${b.downloads} DLs
+            </span>
+            <div class="flex items-center gap-1.5">
+              <button onclick="openBookModal('${b.id}')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">Read</button>
+              <button onclick="downloadBook('${b.id}')" class="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition">Download</button>
+              ${isAdmin ? `
+                <button onclick="deleteBook('${b.id}')" title="Delete Book" class="p-1.5 text-slate-400 hover:text-rose-600">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function filterBooks() {
+      renderBooks();
+    }
+
+    function openBookModal(id) {
+      const b = books.find(item => item.id === id);
+      if (!b) return;
+      document.getElementById('modalBookTitle').innerText = b.title;
+      document.getElementById('modalBookMeta').innerText = `${b.classLevel} | ${b.subject} | Size: ${b.size}`;
+      document.getElementById('paperBookTitle').innerText = b.title;
+      document.getElementById('modalDirectDownloadBtn').onclick = () => downloadBook(b.id);
+      document.getElementById('bookReaderModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeBookModal() {
+      document.getElementById('bookReaderModal').classList.add('hidden');
+    }
+
+    function downloadBook(id) {
+      const b = books.find(item => item.id === id);
+      if (!b) return;
+      b.downloads = (b.downloads || 0) + 1;
+      saveState();
+      renderBooks();
+
+      const blob = new Blob([`Kalyani Coaching Classes Study Material: ${b.title}\nSubject: ${b.subject}\nClass: ${b.classLevel}\nHelplines: 8600436946 / 8484881501 / 9860646501`], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${b.title.replace(/\s+/g, '_')}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+      showToast(`Downloading "${b.title}"...`);
+    }
+
+    function openAddBookModal() {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      document.getElementById('addBookModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeAddBookModal() {
+      document.getElementById('addBookModal').classList.add('hidden');
+    }
+
+    function submitAddBook(e) {
+      e.preventDefault();
+      if (!currentUser || currentUser.role !== 'admin') return;
+
+      const title = document.getElementById('newBookTitle').value.trim();
+      const classLevel = document.getElementById('newBookClass').value;
+      const subject = document.getElementById('newBookSubject').value;
+      const category = document.getElementById('newBookCategory').value;
+      const size = document.getElementById('newBookSize').value.trim() || '12.0 MB';
+      const author = document.getElementById('newBookAuthor').value.trim() || 'Kalyani Faculty';
+
+      books.unshift({
+        id: "b_" + Date.now(),
+        title,
+        classLevel,
+        subject,
+        category,
+        size,
+        author,
+        downloads: 0
+      });
+
+      saveState();
+      renderBooks();
+      updateKPIs();
+      closeAddBookModal();
+      document.getElementById('addBookForm').reset();
+      showToast("Book added to vault!");
+    }
+
+    function deleteBook(id) {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      if (confirm("Are you sure you want to delete this book?")) {
+        books = books.filter(b => b.id !== id);
+        saveState();
+        renderBooks();
+        updateKPIs();
+        showToast("Book removed from library.");
+      }
+    }
+
+    /* ========================================================
+       7. MARKS, TESTS & REPORT CARDS
+       ======================================================== */
+    function renderTests() {
+      const tbody = document.getElementById('testMarksTableBody');
+      const isAdmin = (currentUser && currentUser.role === 'admin');
+
+      tbody.innerHTML = tests.map(t => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="py-3 px-4 font-bold text-slate-900">${t.title}</td>
+          <td class="py-3 px-4 text-brand-600 font-semibold">${t.subject}</td>
+          <td class="py-3 px-4 text-slate-500">${t.date}</td>
+          <td class="py-3 px-4 font-mono font-semibold">${t.maxMarks}</td>
+          <td class="py-3 px-4 font-bold text-slate-900">${t.scored} / ${t.maxMarks}</td>
+          <td class="py-3 px-4 text-slate-500">${t.avg}</td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-0.5 rounded text-[11px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">${t.grade}</span>
+          </td>
+          <td class="py-3 px-4 text-right">
+            ${isAdmin ? `
+              <button onclick="deleteTestRecord('${t.id}')" title="Delete Test" class="p-1 text-slate-400 hover:text-rose-600">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            ` : `
+              <span class="text-[11px] text-slate-400">Verified</span>
+            `}
+          </td>
+        </tr>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function deleteTestRecord(id) {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      if (confirm("Delete this test record?")) {
+        tests = tests.filter(t => t.id !== id);
+        saveState();
+        renderTests();
+        initProgressChart();
+        updateKPIs();
+        showToast("Test record deleted.");
+      }
+    }
+
+    function openNewTestModal() {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      const title = prompt("Enter Test Title (e.g. Physics Weekly Assessment 4):");
+      if (!title) return;
+      const subject = prompt("Subject (e.g. Physics / Mathematics):", "Physics");
+      const scored = prompt("Marks Scored by student:", "45");
+      const maxMarks = prompt("Maximum Marks:", "50");
+
+      tests.unshift({
+        id: "t_" + Date.now(),
+        title,
+        subject: subject || "Mathematics",
+        date: new Date().toISOString().split('T')[0],
+        maxMarks: Number(maxMarks) || 50,
+        scored: Number(scored) || 45,
+        avg: Math.round((Number(scored) || 45) * 0.8),
+        grade: "A+"
+      });
+
+      saveState();
+      renderTests();
+      initProgressChart();
+      updateKPIs();
+      showToast("New test score recorded!");
+    }
+
+    function exportReportCardModal() {
+      const studentName = currentUser && currentUser.role === 'student' ? currentUser.name : (students[0] ? students[0].name : 'Student');
+      const studentRoll = currentUser && currentUser.role === 'student' ? currentUser.roll : (students[0] ? students[0].roll : 'KC-1001');
+      const studentBatch = currentUser && currentUser.role === 'student' ? currentUser.batch : (students[0] ? students[0].batch : 'Class 10th');
+
+      document.getElementById('reportCardStudentName').innerText = studentName;
+      document.getElementById('reportCardRoll').innerText = studentRoll;
+      document.getElementById('reportCardBatch').innerText = studentBatch;
+      document.getElementById('reportCardModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeReportCardModal() {
+      document.getElementById('reportCardModal').classList.add('hidden');
+    }
+
+    /* ========================================================
+       8. HOMEWORK MODULE
+       ======================================================== */
+    function renderHomework() {
+      const container = document.getElementById('homeworkContainer');
+      const isAdmin = (currentUser && currentUser.role === 'admin');
+
+      if (homeworkList.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-400">
+            <i data-lucide="check-circle" class="w-8 h-8 mx-auto mb-1 opacity-50"></i>
+            No active homework assignments right now.
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = homeworkList.map(hw => `
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-100 text-slate-700">${hw.batch}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                ${hw.status}
+              </span>
+            </div>
+
+            <h3 class="font-bold text-slate-900 text-sm mt-1">${hw.title}</h3>
+            <p class="text-xs text-brand-600 font-semibold mt-1">Subject: ${hw.subject}</p>
+
+            <div class="mt-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+              <span class="flex items-center gap-1.5"><i data-lucide="paperclip" class="w-3.5 h-3.5 text-slate-400"></i> ${hw.attachment}</span>
+              <button onclick="showToast('Downloading worksheet: ' + '${hw.attachment}')" class="text-brand-600 font-bold hover:underline">Download</button>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="text-slate-400 flex items-center gap-1">
+              <i data-lucide="clock" class="w-3.5 h-3.5"></i> Due: ${hw.due}
+            </span>
+            ${isAdmin ? `
+              <button onclick="deleteHomework('${hw.id}')" class="text-rose-600 hover:underline font-semibold">Delete</button>
+            ` : `
+              <button onclick="showToast('Homework turned in successfully to faculty!')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition flex items-center gap-1">
+                <i data-lucide="upload" class="w-3.5 h-3.5"></i> Turn In
+              </button>
+            `}
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function openAddHomeworkModal() {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      const title = prompt("Enter Homework Assignment Title:");
+      if (!title) return;
+      const subject = prompt("Subject (e.g. Mathematics / Physics):", "Mathematics");
+      const batch = prompt("Batch (e.g. Class 10th - Batch Alpha):", "Class 10th - Batch Alpha");
+
+      homeworkList.unshift({
+        id: "hw_" + Date.now(),
+        title,
+        subject: subject || "Mathematics",
+        batch: batch || "Class 10th - Batch Alpha",
+        due: "Tomorrow, 8:00 AM",
+        status: "Active",
+        attachment: "Worksheet_" + Date.now().toString().slice(-4) + ".pdf"
+      });
+
+      saveState();
+      renderHomework();
+      showToast("Homework posted for students!");
+    }
+
+    function deleteHomework(id) {
+      if (!currentUser || currentUser.role !== 'admin') return;
+      if (confirm("Delete this homework?")) {
+        homeworkList = homeworkList.filter(h => h.id !== id);
+        saveState();
+        renderHomework();
+        showToast("Homework removed.");
+      }
+    }
+
+    /* ========================================================
+       9. FREE DEPLOYMENT GUIDE MODAL
+       ======================================================== */
+    function openDeployGuideModal() {
+      document.getElementById('deployGuideModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeDeployGuideModal() {
+      document.getElementById('deployGuideModal').classList.add('hidden');
+    }
+
+    /* ========================================================
+       10. CHARTS (Chart.js)
+       ======================================================== */
+    function initDashboardChart() {
+      const ctx = document.getElementById('overviewChart');
+      if (!ctx) return;
+      if (overviewChartInstance) overviewChartInstance.destroy();
+
+      overviewChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+          datasets: [
+            {
+              label: 'Attendance %',
+              data: [92, 94, 91, 95, 93, 96],
+              borderColor: '#4f46e5',
+              backgroundColor: 'rgba(79, 70, 229, 0.08)',
+              borderWidth: 2.5,
+              tension: 0.35,
+              fill: true
+            },
+            {
+              label: 'Batch Average %',
+              data: [79, 82, 78, 86, 84, 88],
+              borderColor: '#10b981',
+              backgroundColor: 'transparent',
+              borderWidth: 2.5,
+              borderDash: [5, 5],
+              tension: 0.35
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+          },
+          scales: {
+            y: { min: 60, max: 100, ticks: { callback: v => v + '%' } }
+          }
+        }
+      });
+    }
+
+    function initProgressChart() {
+      const ctx = document.getElementById('studentProgressChart');
+      if (!ctx) return;
+      if (progressChartInstance) progressChartInstance.destroy();
+
+      const labels = tests.map(t => t.title.substring(0, 15) + '...').reverse();
+      const studentData = tests.map(t => (t.scored / t.maxMarks) * 100).reverse();
+      const avgData = tests.map(t => (t.avg / t.maxMarks) * 100).reverse();
+
+      progressChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Student Score %',
+              data: studentData,
+              backgroundColor: '#4f46e5',
+              borderRadius: 6
+            },
+            {
+              label: 'Batch Average %',
+              data: avgData,
+              backgroundColor: '#cbd5e1',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } }
+          },
+          scales: {
+            y: { min: 0, max: 100, ticks: { callback: v => v + '%' } }
+          }
+        }
+      });
+    }
+
+    /* ========================================================
+       11. PERSISTENCE & TOASTS
+       ======================================================== */
+    function saveState() {
+      localStorage.setItem('kcc_students', JSON.stringify(students));
+      localStorage.setItem('kcc_books', JSON.stringify(books));
+      localStorage.setItem('kcc_homework', JSON.stringify(homeworkList));
+      localStorage.setItem('kcc_tests', JSON.stringify(tests));
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3500);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      checkAuth();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
