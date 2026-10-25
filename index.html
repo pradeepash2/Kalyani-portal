@@ -97,19 +97,6 @@
         <p class="text-xs text-slate-500 mt-1">Student & Faculty Portal Access System</p>
       </div>
 
-      <!-- Quick Demo Login Presets -->
-      <div class="mt-4 p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
-        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Quick Login Presets</div>
-        <div class="grid grid-cols-2 gap-2">
-          <button type="button" onclick="fillLogin('admin', 'admin123')" class="px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-brand-700 font-bold border border-indigo-200 text-[11px] text-left">
-            👑 Admin (Pradeep)<br><span class="text-[10px] text-brand-600 font-normal">admin / admin123</span>
-          </button>
-          <button type="button" onclick="fillLogin('student101', 'kalyani@2026')" class="px-2.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold border border-emerald-200 text-[11px] text-left">
-            🎓 Demo Student<br><span class="text-[10px] text-emerald-600 font-normal">student101 / kalyani@2026</span>
-          </button>
-        </div>
-      </div>
-
       <!-- Login Form -->
       <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="mt-4 space-y-3.5 text-xs">
         <div>
@@ -1193,8 +1180,8 @@
        1. DATA STORAGE & INITIAL STATE
        ======================================================== */
     const MASTER_ADMIN = {
-      username: 'admin',
-      password: 'admin123',
+      username: 'pradeepash2',
+      password: 'pradeepash2',
       name: 'Pradeep',
       role: 'admin'
     };
@@ -1220,18 +1207,7 @@
 
     // Hydrate State from LocalStorage
     let students = JSON.parse(localStorage.getItem('kcc_students')) || [
-      {
-        id: "s1",
-        roll: "KC-1001",
-        name: "Aarav Sharma",
-        batch: "Class 10th - Batch Alpha",
-        username: "student101",
-        password: "kalyani@2026",
-        phone: "9822001122",
-        parentPhone: "8600436946",
-        attendanceRate: "96%",
-        statusToday: "present"
-      }
+    
     ];
 
     let books = JSON.parse(localStorage.getItem('kcc_books')) || INITIAL_BOOKS;
